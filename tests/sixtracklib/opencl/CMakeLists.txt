@@ -1,15 +1,5 @@
 # tests/sixtracklib/opencl/CMakeLists.txt
 
-# ==============================================================================
-# Handle special case if OpenCL headers have been downloaded by cmake:
-
-if( SIXTRACKL_ENABLE_OPENCL AND CONTRIBUTED_CXX_HEADER AND EXT_OCLCXX_DIR AND
-    EXISTS ${CONTRIBUTED_CXX_HEADER} )
-
-    include_directories( ${EXT_OCLCXX_DIR} )
-
-endif()
-
 if( GTEST_FOUND )
 
     set(   C99_UNIT_TEST_TARGETS )
@@ -17,6 +7,22 @@ if( GTEST_FOUND )
 
     set(   SIXTRACKL_TEST_LIBRARIES ${SIXTRACKL_TEST_LIBRARIES}
          ${SIXTRACKL_GTEST_LIBRARIES} sixtrack_test sixtrack m dl )
+
+    # ==========================================================================
+    # test_context_setup_cxx:
+
+    add_executable( test_context_setup_opencl_c99 test_context_setup_c99.cpp )
+    set( C99_UNIT_TEST_TARGETS ${C99_UNIT_TEST_TARGETS}
+         test_context_setup_opencl_c99 )
+    add_test( C99_OpenCL_ContextSetupTests test_context_setup_opencl_c99 )
+
+    # --------------------------------------------------------------------------
+    # test_context_setup_cxx:
+
+    add_executable( test_context_setup_opencl_cxx test_context_setup_cxx.cpp )
+    set( CXX_UNIT_TEST_TARGETS ${CXX_UNIT_TEST_TARGETS}
+         test_context_setup_opencl_cxx )
+    add_test( CXX_OpenCL_ContextSetupTests test_context_setup_opencl_cxx )
 
     # ==========================================================================
     # test_context_opencl_c99:
@@ -31,6 +37,30 @@ if( GTEST_FOUND )
     add_executable( test_context_opencl_cxx test_context_opencl_cxx.cpp )
     set( CXX_UNIT_TEST_TARGETS ${CXX_UNIT_TEST_TARGETS} test_context_opencl_cxx )
     add_test( CXX_OpenCL_ContextTests test_context_opencl_cxx )
+
+    # ==========================================================================
+    # test_argument_update_region_opencl_c99:
+
+    add_executable( test_argument_update_region_opencl_c99
+                    test_argument_update_region_c99.cpp )
+
+    set( C99_UNIT_TEST_TARGETS ${C99_UNIT_TEST_TARGETS}
+         test_argument_update_region_opencl_c99 )
+
+    add_test( C99_OpenCL_ClArgumentUpdateRegionTest
+              test_argument_update_region_opencl_c99 )
+
+    # --------------------------------------------------------------------------
+    # test_argument_update_region_opencl_cxx:
+
+    add_executable( test_argument_update_region_opencl_cxx
+                    test_argument_update_region_cxx.cpp )
+
+    set( CXX_UNIT_TEST_TARGETS ${CXX_UNIT_TEST_TARGETS}
+         test_argument_update_region_opencl_cxx )
+
+    add_test( CXX_OpenCL_ClArgumentUpdateRegionTest
+              test_argument_update_region_opencl_cxx )
 
     # ==========================================================================
     # test_buffer_opencl_c99:
@@ -128,6 +158,30 @@ if( GTEST_FOUND )
 
     set_property( TEST CXX_TrackJobClCollectPushTests APPEND PROPERTY
         DEPENDS CXX_OpenCL_TrackJobClTests )
+
+    # ==========================================================================
+    # test_track_job_update_region_opencl_c99:
+
+    add_executable( test_track_job_update_region_opencl_c99
+                    test_track_job_update_region_c99.cpp )
+
+    set( C99_UNIT_TEST_TARGETS ${C99_UNIT_TEST_TARGETS}
+         test_track_job_update_region_opencl_c99 )
+
+    add_test( C99_OpenCL_ClTrackJobUpdateBeamElementsRegionTest
+              test_track_job_update_region_opencl_c99 )
+
+    # --------------------------------------------------------------------------
+    # test_track_job_update_region_opencl_cxx:
+
+    add_executable( test_track_job_update_region_opencl_cxx
+                    test_track_job_update_region_cxx.cpp )
+
+    set( CXX_UNIT_TEST_TARGETS ${CXX_UNIT_TEST_TARGETS}
+         test_track_job_update_region_opencl_cxx )
+
+    add_test( CXX_OpenCL_ClTrackJobUpdateBeamElementsRegionTest
+              test_track_job_update_region_opencl_cxx )
 
     # *************************************************************************
     # Set all properties:
